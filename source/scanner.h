@@ -2,7 +2,7 @@
 // Created by Mohamed F. Razzk on 15/11/2021.
 //
 #ifndef __SCANNER_H__
-
+#define __SCANNER_H__
 #include <string>
 #include <list>
 
@@ -11,7 +11,7 @@ scan_state state = START;
 
 std::string RES_WORDS[] = { "if","then","else","end","repeat","until","read","write" };
 
-
+// IMP. NOTE: token_type needs to be enum to avoid spelling problems 
 struct tokens {
 	std::string token, token_type;
 };

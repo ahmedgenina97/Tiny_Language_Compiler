@@ -26,7 +26,7 @@ bool check_stmt_sequence(std::list<tokens>& t)
 	{
 		return false;
 	}
-	while (t.front().token == ";")
+	while ((!t.empty()) && t.front().token == ";")
 	{
 		t.pop_front();
 		if (check_statement(t) == false)
@@ -39,7 +39,7 @@ bool check_stmt_sequence(std::list<tokens>& t)
 
 bool check_statement(std::list<tokens>& t)
 {
-	if (t.front().token_type == "RESERVED_WORD")
+	if ((!t.empty()) && t.front().token_type == "RESERVED_WORD")
 	{
 		if (t.front().token == "if")
 		{
@@ -58,7 +58,7 @@ bool check_statement(std::list<tokens>& t)
 			return check_write_stmt(t);
 		}
 	}
-	else if (t.front().token_type == "IDENTIFEIER")
+	else if ((!t.empty()) && t.front().token_type == "IDENTIFEIER")
 	{
 		return check_assign_stmt(t);
 	}
@@ -70,7 +70,7 @@ bool check_statement(std::list<tokens>& t)
 
 bool check_if_stmt(std::list<tokens>& t)
 {
-	if (t.front().token == "if")
+	if ((!t.empty()) && t.front().token == "if")
 	{
 		t.pop_front();
 	}
@@ -82,7 +82,7 @@ bool check_if_stmt(std::list<tokens>& t)
 	{
 		return false;
 	}
-	if (t.front().token == "then")
+	if ((!t.empty()) && t.front().token == "then")
 	{
 		t.pop_front();
 	}
@@ -94,7 +94,7 @@ bool check_if_stmt(std::list<tokens>& t)
 	{
 		return false;
 	}
-	if (t.front().token == "else")
+	if ((!t.empty()) && t.front().token == "else")
 	{
 		t.pop_front();
 		if (check_stmt_sequence(t) == false)
@@ -102,7 +102,7 @@ bool check_if_stmt(std::list<tokens>& t)
 			return false;
 		}
 	}
-	if (t.front().token == "end")
+	if ((!t.empty()) && t.front().token == "end")
 	{
 		t.pop_front();
 	}
@@ -115,7 +115,7 @@ bool check_if_stmt(std::list<tokens>& t)
 
 bool check_repeat_stmt(std::list<tokens>& t)
 {
-	if (t.front().token == "repeat")
+	if ((!t.empty()) && t.front().token == "repeat")
 	{
 		t.pop_front();
 	}
@@ -127,7 +127,7 @@ bool check_repeat_stmt(std::list<tokens>& t)
 	{
 		return false;
 	}
-	if (t.front().token == "until")
+	if ((!t.empty()) && t.front().token == "until")
 	{
 		t.pop_front();
 	}
@@ -144,7 +144,7 @@ bool check_repeat_stmt(std::list<tokens>& t)
 
 bool check_assign_stmt(std::list<tokens>& t)
 {
-	if (t.front().token_type == "IDENTIFEIER")
+	if ((!t.empty()) && t.front().token_type == "IDENTIFEIER")
 	{
 		t.pop_front();
 	}
@@ -152,7 +152,7 @@ bool check_assign_stmt(std::list<tokens>& t)
 	{
 		return false;
 	}
-	if (t.front().token == ":=")
+	if ((!t.empty()) && t.front().token == ":=")
 	{
 		t.pop_front();
 	}
@@ -169,7 +169,7 @@ bool check_assign_stmt(std::list<tokens>& t)
 
 bool check_read_stmt(std::list<tokens>& t)
 {
-	if (t.front().token == "read")
+	if ((!t.empty()) && t.front().token == "read")
 	{
 		t.pop_front();
 	}
@@ -177,7 +177,7 @@ bool check_read_stmt(std::list<tokens>& t)
 	{
 		return false;
 	}
-	if (t.front().token_type == "IDENTIFEIER")
+	if ((!t.empty()) && t.front().token_type == "IDENTIFEIER")
 	{
 		t.pop_front();
 	}
@@ -190,7 +190,7 @@ bool check_read_stmt(std::list<tokens>& t)
 
 bool check_write_stmt(std::list<tokens>& t)
 {
-	if (t.front().token == "write")
+	if ((!t.empty()) && t.front().token == "write")
 	{
 		t.pop_front();
 	}
@@ -223,7 +223,7 @@ bool check_expr(std::list<tokens>& t)
 
 bool check_comp_op(std::list<tokens>& t)
 {
-	if (t.front().token == "<" || t.front().token == "=")
+	if ((!t.empty()) && (t.front().token == "<" || t.front().token == "="))
 	{
 		t.pop_front();
 		return true;
@@ -252,7 +252,7 @@ bool check_simple_expr(std::list<tokens>& t)
 
 bool check_add_op(std::list<tokens>& t)
 {
-	if (t.front().token == "+" || t.front().token == "-")
+	if ((!t.empty()) && (t.front().token == "+" || t.front().token == "-"))
 	{
 		t.pop_front();
 		return true;
@@ -281,7 +281,7 @@ bool check_term(std::list<tokens>& t)
 
 bool check_mul_op(std::list<tokens>& t)
 {
-	if (t.front().token == "*" || t.front().token == "/")
+	if ((!t.empty()) && (t.front().token == "*" || t.front().token == "/"))
 	{
 		t.pop_front();
 		return true;
@@ -294,14 +294,14 @@ bool check_mul_op(std::list<tokens>& t)
 
 bool check_factor(std::list<tokens>& t)
 {
-	if (t.front().token == "(")
+	if ((!t.empty()) && t.front().token == "(")
 	{
 		t.pop_front();
 		if (check_expr(t) == false)
 		{
 			return false;
 		}
-		if (t.front().token == ")")
+		if ((!t.empty()) && t.front().token == ")")
 		{
 			t.pop_front();
 		}
@@ -310,7 +310,7 @@ bool check_factor(std::list<tokens>& t)
 			return false;
 		}
 	}
-	else if (t.front().token_type == "NUMBER" || t.front().token_type == "IDENTIFEIER")
+	else if ((!t.empty()) && (t.front().token_type == "NUMBER" || t.front().token_type == "IDENTIFEIER"))
 	{
 		t.pop_front();
 	}
