@@ -9,7 +9,11 @@
 enum scan_state { START, INCOMMENT, INNUM, INID, INASSIGN, DONE };
 scan_state state = START;
 
-std::string RES_WORDS[] = { "if","then","else","end","repeat","until","read","write" };
+std::string RES_WORDS[] =
+{
+	  "if",  "then", "else",   "end"
+ ,"repeat", "until", "read", "write"
+};
 
 // IMP. NOTE: token_type needs to be enum to avoid spelling problems 
 struct tokens {
@@ -18,11 +22,18 @@ struct tokens {
 
 bool isDigit(char d) { return (d >= '0' && d <= '9'); }
 
-bool isLetter(char l) { return (l >= 'a' && l <= 'z' || l >= 'A' && l <= 'Z'); }
+bool isLetter(char l)
+{
+	return (l >= 'a' && l <= 'z' || l >= 'A' && l <= 'Z');
+}
 
 bool isSpace(char s) { return (s == ' ' || s == '\t' || s == '\n'); }
 
-bool isSymbol(char c) { return (c == '+' || '-' || '*' || '/' || '=' || '<' || '>' || '(' || ')' || ';'); }
+bool isSymbol(char c) {
+	return(c == '+' || c == '-' || c == '*' || c == '/' || c == '='
+		|| c == '<' || c == '>' || c == '(' || c == ')' || c == ';');
+
+}
 
 void getToken(std::string l, std::list<tokens>& code_tokens)
 {

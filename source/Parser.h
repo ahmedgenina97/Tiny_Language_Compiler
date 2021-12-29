@@ -18,7 +18,6 @@ struct SyntaxTree {
 	std::vector<SyntaxTree*> children;
 	std::string title;
 	std::string subtitle;
-	// uint32_t n_leaf_nodes;
 };
 
 
@@ -42,7 +41,7 @@ SyntaxTree stmt_sequence(std::list<tokens>& t)
 	SyntaxTree* prnt = new SyntaxTree;
 	*prnt = statement(t);
 	SyntaxTree* tmp_prnt = prnt;
-	while (t.front().token == ";")
+	while ((!t.empty()) && t.front().token == ";")
 	{
 		t.pop_front();
 		SyntaxTree* sblng = new SyntaxTree;
@@ -55,26 +54,26 @@ SyntaxTree stmt_sequence(std::list<tokens>& t)
 
 SyntaxTree statement(std::list<tokens>& t)
 {
-	if (t.front().token_type == "RESERVED_WORD")
+	if ((!t.empty()) && t.front().token_type == "RESERVED_WORD")
 	{
-		if (t.front().token == "if")
+		if ((!t.empty()) && t.front().token == "if")
 		{
 			return if_stmt(t);
 		}
-		else if (t.front().token == "repeat")
+		else if ((!t.empty()) && t.front().token == "repeat")
 		{
 			return repeat_stmt(t);
 		}
-		else if (t.front().token == "read")
+		else if ((!t.empty()) && t.front().token == "read")
 		{
 			return read_stmt(t);
 		}
-		else if (t.front().token == "write")
+		else if ((!t.empty()) && t.front().token == "write")
 		{
 			return write_stmt(t);
 		}
 	}
-	else if (t.front().token_type == "IDENTIFEIER")
+	else if ((!t.empty()) && t.front().token_type == "IDENTIFEIER")
 	{
 		return assign_stmt(t);
 	}
@@ -91,28 +90,28 @@ SyntaxTree if_stmt(std::list<tokens>& t)
 	prnt.type = SyntaxTree_t::if_sttmnt;
 	prnt.title = "if";
 	prnt.children.resize(2);
-	if (t.front().token == "if")
+	if ((!t.empty()) && t.front().token == "if")
 	{
 		t.pop_front();
 	}
 	SyntaxTree* test = new SyntaxTree;
 	*test = expr(t);
 	prnt.children[0] = test;
-	if (t.front().token == "then")
+	if ((!t.empty()) && t.front().token == "then")
 	{
 		t.pop_front();
 	}
 	SyntaxTree* then_part = new SyntaxTree;
 	*then_part = stmt_sequence(t);
 	prnt.children[1] = then_part;
-	if (t.front().token == "else")
+	if ((!t.empty()) && t.front().token == "else")
 	{
 		t.pop_front();
 		SyntaxTree* else_part = new SyntaxTree;
 		*else_part = stmt_sequence(t);
 		prnt.children.push_back(else_part);
 	}
-	if (t.front().token == "end")
+	if ((!t.empty()) && t.front().token == "end")
 	{
 		t.pop_front();
 	}
@@ -125,14 +124,14 @@ SyntaxTree repeat_stmt(std::list<tokens>& t)
 	prnt.type = SyntaxTree_t::rpt_sttmnt;
 	prnt.title = "repeat";
 	prnt.children.resize(2);
-	if (t.front().token == "repeat")
+	if ((!t.empty()) && t.front().token == "repeat")
 	{
 		t.pop_front();
 	}
 	SyntaxTree* body = new SyntaxTree;
 	*body = stmt_sequence(t);
 	prnt.children[0] = body;
-	if (t.front().token == "until")
+	if ((!t.empty()) && t.front().token == "until")
 	{
 		t.pop_front();
 	}
@@ -148,12 +147,12 @@ SyntaxTree assign_stmt(std::list<tokens>& t)
 	prnt.type = SyntaxTree_t::asgn_sttmnt;
 	prnt.title = "assign";
 	prnt.children.resize(1);
-	if (t.front().token_type == "IDENTIFEIER")
+	if ((!t.empty()) && t.front().token_type == "IDENTIFEIER")
 	{
 		prnt.subtitle = t.front().token;
 		t.pop_front();
 	}
-	if (t.front().token == ":=")
+	if ((!t.empty()) && t.front().token == ":=")
 	{
 		t.pop_front();
 	}
@@ -169,11 +168,11 @@ SyntaxTree read_stmt(std::list<tokens>& t)
 	prnt.type = SyntaxTree_t::read_sttmt;
 	prnt.title = "read";
 	prnt.children.resize(0);
-	if (t.front().token == "read")
+	if ((!t.empty()) && t.front().token == "read")
 	{
 		t.pop_front();
 	}
-	if (t.front().token_type == "IDENTIFEIER")
+	if ((!t.empty()) && t.front().token_type == "IDENTIFEIER")
 	{
 		prnt.subtitle = t.front().token;
 		t.pop_front();
@@ -187,7 +186,7 @@ SyntaxTree write_stmt(std::list<tokens>& t)
 	prnt.type = SyntaxTree_t::wrt_sttmnt;
 	prnt.title = "write";
 	prnt.children.resize(1);
-	if (t.front().token == "write")
+	if ((!t.empty()) && t.front().token == "write")
 	{
 		t.pop_front();
 	}
@@ -201,7 +200,7 @@ SyntaxTree expr(std::list<tokens>& t)
 {
 	SyntaxTree prnt;
 	prnt = simple_expr(t);
-	if (t.front().token == "<" || t.front().token == "=")
+	if ((!t.empty()) && (t.front().token == "<" || t.front().token == "="))
 	{
 		SyntaxTree super_prnt = comp_op(t);
 		super_prnt.children.resize(2);
@@ -231,7 +230,7 @@ SyntaxTree simple_expr(std::list<tokens>& t)
 {
 	SyntaxTree prnt;
 	prnt = term(t);
-	while (t.front().token == "+" || t.front().token == "-")
+	while ((!t.empty()) && (t.front().token == "+" || t.front().token == "-"))
 	{
 		SyntaxTree super_prnt = add_op(t);
 		super_prnt.children.resize(2);
@@ -259,7 +258,7 @@ SyntaxTree add_op(std::list<tokens>& t)
 SyntaxTree term(std::list<tokens>& t)
 {
 	SyntaxTree prnt = factor(t);
-	while (t.front().token == "*" || t.front().token == "/")
+	while ((!t.empty()) && (t.front().token == "*" || t.front().token == "/"))
 	{
 		SyntaxTree super_prnt = mul_op(t);
 		super_prnt.children.resize(2);
@@ -288,23 +287,23 @@ SyntaxTree mul_op(std::list<tokens>& t)
 SyntaxTree factor(std::list<tokens>& t)
 {
 	SyntaxTree prnt;
-	if (t.front().token == "(")
+	if ((!t.empty()) && t.front().token == "(")
 	{
 		t.pop_front();
 		prnt = expr(t);
-		if (t.front().token == ")")
+		if ((!t.empty()) && t.front().token == ")")
 		{
 			t.pop_front();
 		}
 	}
-	else if(t.front().token_type == "NUMBER")
+	else if((!t.empty()) && t.front().token_type == "NUMBER")
 	{
 		prnt.type = SyntaxTree_t::const_exp;
 		prnt.title = "const";
 		prnt.subtitle = t.front().token;
 		t.pop_front();
 	}
-	else if (t.front().token_type == "IDENTIFEIER")
+	else if ((!t.empty()) && t.front().token_type == "IDENTIFEIER")
 	{
 		prnt.type = SyntaxTree_t::id_exp;
 		prnt.title = "id";
@@ -314,6 +313,10 @@ SyntaxTree factor(std::list<tokens>& t)
 	return prnt;
 }
 
+SyntaxTree gen_sntx_tree(std::list<tokens> t)
+{
+	return stmt_sequence(t);
+}
 
 #endif // !__PARSER_H__
 

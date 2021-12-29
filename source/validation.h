@@ -62,10 +62,7 @@ bool check_statement(std::list<tokens>& t)
 	{
 		return check_assign_stmt(t);
 	}
-	else
-	{
-		return false;
-	}
+	return false;
 }
 
 bool check_if_stmt(std::list<tokens>& t)

@@ -3,6 +3,8 @@
 #define __TESTS_H__
 
 #include"validation.h"
+#include"scanner.h"
+#include"Parser.h"
 #include<fstream>
 #include<sstream>
 #include<iostream>
@@ -18,6 +20,18 @@ bool test_validation()
 	std::list<tokens> tokens_list;
 	getToken(test_str, tokens_list);
 	return is_syntax_valid(tokens_list);
+}
+
+SyntaxTree test_tree_gen()
+{
+	std::ifstream x("test_validity.txt");
+	std::stringstream iss;
+	iss << x.rdbuf();
+	std::string test_str = iss.str();
+	x.close();
+	std::list<tokens> tokens_list;
+	getToken(test_str, tokens_list);
+	return gen_sntx_tree(tokens_list);
 }
 
 #endif // !__TESTS_H__
