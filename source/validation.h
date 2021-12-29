@@ -66,6 +66,7 @@ bool check_statement(std::list<tokens>& t)
 	{
 		return false;
 	}
+	return 0;
 }
 
 bool check_if_stmt(std::list<tokens>& t)
