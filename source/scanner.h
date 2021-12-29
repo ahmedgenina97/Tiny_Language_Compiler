@@ -1,6 +1,8 @@
 //
 // Created by Mohamed F. Razzk on 15/11/2021.
 //
+#ifndef __SCANNER_H__
+
 #include <string>
 #include <list>
 
@@ -148,4 +150,5 @@ void getToken(std::string l, std::list<tokens>& code_tokens)
 	}
 }
 
+#endif // !__SCANNER_H__
 
