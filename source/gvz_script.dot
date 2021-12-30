@@ -1,0 +1,44 @@
+graph R {
+0[label="read\n(x)",shape=box]
+0 -- 1 subgraph{0	1 rank="same"}
+1[label="if",shape=box]
+1 -- 2
+2[label="op\n(<)",shape=oval]
+2 -- 3
+3[label="const\n(0)",shape=oval]
+2 -- 4
+4[label="id\n(x)",shape=oval]
+1 -- 5
+5[label="assign\n(fact)",shape=box]
+5 -- 6
+6[label="const\n(1)",shape=oval]
+5 -- 7 subgraph{5	7 rank="same"}
+7[label="repeat",shape=box]
+7 -- 8
+8[label="assign\n(fact)",shape=box]
+8 -- 9
+9[label="op\n(*)",shape=oval]
+9 -- 10
+10[label="id\n(fact)",shape=oval]
+9 -- 11
+11[label="id\n(x)",shape=oval]
+8 -- 12 subgraph{8	12 rank="same"}
+12[label="assign\n(x)",shape=box]
+12 -- 13
+13[label="op\n(-)",shape=oval]
+13 -- 14
+14[label="id\n(x)",shape=oval]
+13 -- 15
+15[label="const\n(1)",shape=oval]
+7 -- 16
+16[label="op\n(=)",shape=oval]
+16 -- 17
+17[label="id\n(x)",shape=oval]
+16 -- 18
+18[label="const\n(0)",shape=oval]
+7 -- 19 subgraph{7	19 rank="same"}
+19[label="write",shape=box]
+19 -- 20
+20[label="id\n(fact)",shape=oval]
+
+}
