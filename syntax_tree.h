@@ -9,6 +9,8 @@
 #include<fstream>
 #include<iostream>
 
+using namespace System::Diagnostics;
+
 std::string gen_script(SyntaxTree t)
 {
 	static uint64_t id = 0;
@@ -75,9 +77,20 @@ bool draw_tree(std::string token_txt) {
 	std::stringstream ss(script_str);
 	file_out << ss.rdbuf();
 	file_out.close();
-	ShellExecuteA(NULL, "open", "cmd.exe",
-		"/c \"Graphviz\\bin\\dot.exe -Tsvg > output.svg gvz_script.dot\"", NULL, SW_SHOW);
+	//ShellExecuteA(NULL, "open", "cmd.exe",
+	//	"/c \"Graphviz\\bin\\dot.exe -Tsvg > output.svg gvz_script.dot\"", NULL, SW_SHOW);
+	//Sleep(1000);
+	//ShellExecuteA(NULL, "open", "cmd.exe", "/c \"output.svg\"", NULL, SW_SHOW);
+	Process^ generate_script = gcnew Process();
+	generate_script->Start(
+		"cmd.exe",
+		"/c \"Graphviz\\bin\\dot.exe -Tsvg > output.svg gvz_script.dot\""
+	);
+	Process^ open_svg = gcnew Process();
 	Sleep(1000);
-	ShellExecuteA(NULL, "open", "cmd.exe", "/c \"output.svg\"", NULL, SW_SHOW);
+	open_svg->Start(
+		"cmd.exe",
+		"/c \"output.svg\""
+	);
 	return true;
 }

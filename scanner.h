@@ -27,7 +27,7 @@ bool isLetter(char l)
 	return (l >= 'a' && l <= 'z' || l >= 'A' && l <= 'Z');
 }
 
-bool isSpace(char s) { return (s == ' ' || s == '\t' || s == '\n'); }
+bool isSpace(char s) { return (s == ' ' || s == '\t' || s == '\n' || s == '\r'); }
 
 bool isSymbol(char c) {
 	return(c == '+' || c == '-' || c == '*' || c == '/' || c == '='
